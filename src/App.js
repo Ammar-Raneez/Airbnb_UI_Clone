@@ -7,8 +7,8 @@ import {BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import SearchPage from './SearchPage';
 
 function App() {
-	return (
 //always render header and footer, that's why they're included outside the switch
+	return (
 		<div className="app">
 		<Router>
 			<Header />
