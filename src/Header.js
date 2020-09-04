@@ -1,12 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Header.css'
 // import SearchIcon from '@material-ui/icons/Search';
 import LanguageIcon from '@material-ui/icons/Language';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Avatar } from '@material-ui/core'
+import { Avatar, Button } from '@material-ui/core'
 import { Link } from 'react-router-dom';
+import { auth, provider } from './firebase';
 
 function Header() {
+    const [user, setUser] = useState(null);
+
+    const signIn = event => {
+        auth.signInWithPopup(provider)
+        .then(res => {
+            setUser(res.user)
+        })
+        .catch(err => alert(err.message))
+    }
+
     return (
         <div className="header">
             <Link to="/">
@@ -22,7 +33,11 @@ function Header() {
                 <p>Become a host</p>
                 <LanguageIcon />
                 <ExpandMoreIcon />
-                <Avatar />
+                {!user ? (
+                        <Button onClick={() => signIn()}>Login</Button>
+                    ) : (
+                        <Button onClick={() => signIn()}><Avatar alt={user?.displayName} src={user?.photoURL} /></Button>
+                        )}            
             </div>
         </div>
     )
